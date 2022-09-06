@@ -11,7 +11,7 @@ df.drop(columns="Unnamed: 0.1", inplace=True)
 df.drop(columns="Unnamed: 0", inplace=True)
 
 api_key = ""  # Go to openweathermap.org, sign up and get an API key.
-# data1 = open("Data.txt", "r+")
+
 i = 1
 
 while i <= 4:  # Makes the program run 4 times, or 4 intervals
