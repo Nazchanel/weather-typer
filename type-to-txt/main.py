@@ -6,11 +6,11 @@ from datetime import datetime
 import pandas as pd
 import numpy as np
 
-df = pd.read_csv("c.csv")  # Drops the columns that keep generating randomly
+df = pd.read_csv("city-coordinates.csv")  # Drops the columns that keep generating randomly
 df.drop(columns="Unnamed: 0.1", inplace=True)
 df.drop(columns="Unnamed: 0", inplace=True)
 
-api_key = ""  # Go to openweathermap.org, sign up and get an API key.
+api_key = "0ee8a9d971933b7400aa71047a24092d"  # Go to openweathermap.org, sign up and get an API key.
 
 i = 1
 
@@ -26,10 +26,11 @@ while i <= 4:  # Makes the program run 4 times, or 4 intervals
     place = row[0][0]
     lat = row[0][1]
     lon = row[0][2]
-    url = "https://api.openweathermap.org/data/2.5/onecall?lat=%s&lon=%s&appid=%s&units=imperial" % (lat, lon, api_key)
+    url = "https://api.openweathermap.org/data/2.5/weather?lat=%s&lon=%s&appid=%s&units=imperial" % (lat, lon, api_key)
+
     hour = now.strftime("%I")
 
-    if hour[0] == "0":  # Makes the twelve hour time format correct by removing the 0
+    if hour[0] == "0":  # Makes the twelve-hour time format correct by removing the 0
         hour = hour[1:]
 
     ct = now.strftime(f'%m/%d/%Y- {hour}:%M:%S %p CST')  # The time string stored in a variable
@@ -37,15 +38,14 @@ while i <= 4:  # Makes the program run 4 times, or 4 intervals
     response = requests.get(url)
     data = json.loads(response.text)
 
+    print(data)
     # Accesses the values in the massive dictionary from the API and defines them to a variable
-    humidity = data['current']['humidity']
-    feel_like = data['current']['feels_like']
-    description = data['current']['weather'][0]["description"]
-    current = data['current']['temp']
-    wind_speed = data['current']['wind_speed']
-    # feel_like2 = int(feel_like * 1.8) + 32  # Converts the celsius to Fahrenheit, but I changed it to imperial
-    # current2 = int(current * 1.8) + 32 # Converts the celsius to Fahrenheit, but I changed it to imperial
-    # ---------------------------------------------------------------------------------------------------------------
+    humidity = data['main']['humidity']
+    feel_like = data['main']['feels_like']
+    description = data['weather'][0]['description']
+    current = data['main']['temp']
+    wind_speed = data['wind']['speed']
+
     # The complete concatenated message
     c = f"{ct}: It is {round(current, 1)}°F outside in {place}. It feels like {round(feel_like, 1)}°F. Humidity is at {humidity}%. The wind is blowing at {wind_speed}mph. The weather description: {description.upper()} "
     # data1.write(c)
