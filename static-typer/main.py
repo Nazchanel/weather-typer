@@ -3,11 +3,13 @@ import json
 from pynput.keyboard import Key, Controller
 import time
 from datetime import datetime
-import sys
+import input
 
 api_key = "cce56cc59deaf49cf5a8692ee9db6ce6"  # Go to openweathermap.org, sign up and get an API key.
-lat = "33.155373"
-lon = "-96.818733"
+
+# Enter your city coordinates here.
+lat = input.lat
+lon = input.lon
 url = "https://api.openweathermap.org/data/2.5/weather?lat=%s&lon=%s&appid=%s&units=imperial" % (lat, lon, api_key)
 i = 1
 
@@ -17,7 +19,7 @@ while i <= 825:  # Makes the program run 4 times, or 4 intervals
     keyboard = Controller()
     now = datetime.now()  # Gets the current time
     hour = now.strftime("%I")
-    if hour[0] == "0":  # Makes the twelve hour time format correct by removing the 0
+    if hour[0] == "0":  # Makes the twelve-hour time format correct by removing the 0
         hour = hour[1:]
     ct = now.strftime(f'%m/%d/%Y- {hour}:%M:%S %p CST')  # The time string stored in a variable
     response = requests.get(url)

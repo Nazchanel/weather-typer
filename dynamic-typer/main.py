@@ -1,16 +1,17 @@
 import requests
 import json
-from pynput.keyboard import Key, Controller
+from pynput.keyboard import Controller
 import time
 from datetime import datetime
 import pandas as pd
 import numpy as np
+import input
 
 df = pd.read_csv("c.csv")  # Drops the columns that keep generating randomly
 df.drop(columns="Unnamed: 0.1", inplace=True)
 df.drop(columns="Unnamed: 0", inplace=True)
 
-api_key = ""  # Go to openweathermap.org, sign up and get an API key.
+input.api_key = ""  # Go to openweathermap.org, sign up and get an API key.
 i = 1
 
 while i <= 40:  # Makes the program run 4 times, or 4 intervals

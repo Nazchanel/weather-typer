@@ -1,1 +1,4 @@
-This is the weather project that I created to type the weather using an API. 
+# Static Location Weather Typer
+Types the static location weather for a given location based on given coordinates.
+
+Enter your input in the `input.py` file.

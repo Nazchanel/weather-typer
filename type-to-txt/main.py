@@ -1,23 +1,29 @@
 import requests
 import json
-from pynput.keyboard import Key, Controller
 import time
 from datetime import datetime
 import pandas as pd
 import numpy as np
+import os
+
+current_directory = os.getcwd()
+
+# Changes directory to where the dataset is located
+os.chdir(current_directory[:len(current_directory)-len("type-to-txt")])
 
 df = pd.read_csv("city-coordinates.csv")  # Drops the columns that keep generating randomly
 df.drop(columns="Unnamed: 0.1", inplace=True)
 df.drop(columns="Unnamed: 0", inplace=True)
 
-api_key = "0ee8a9d971933b7400aa71047a24092d"  # Go to openweathermap.org, sign up and get an API key.
-
+# Brings it back to the original directory
+os.chdir("type-to-txt")
+api_key = ""  # Go to openweathermap.org, sign up and get an API key.
+data1 = open("Data.txt", "r+")
 i = 1
 
-while i <= 4:  # Makes the program run 4 times, or 4 intervals
+while i <= 40:  # Makes the program run 40 times
     i += 1
-    keyboard = Controller()
-    now = datetime.now()  # Gets the current time
+    now = datetime.now()
     d = np.random.randint(0, 824)  # Makes the random row number to get
     get_row = df.loc[[d]]  # Gets the row based on the random number
     row = np.array(get_row)  # Makes it easier for us to access the row values
@@ -27,7 +33,6 @@ while i <= 4:  # Makes the program run 4 times, or 4 intervals
     lat = row[0][1]
     lon = row[0][2]
     url = "https://api.openweathermap.org/data/2.5/weather?lat=%s&lon=%s&appid=%s&units=imperial" % (lat, lon, api_key)
-
     hour = now.strftime("%I")
 
     if hour[0] == "0":  # Makes the twelve-hour time format correct by removing the 0
@@ -38,22 +43,24 @@ while i <= 4:  # Makes the program run 4 times, or 4 intervals
     response = requests.get(url)
     data = json.loads(response.text)
 
-    print(data)
     # Accesses the values in the massive dictionary from the API and defines them to a variable
-    humidity = data['main']['humidity']
-    feel_like = data['main']['feels_like']
-    description = data['weather'][0]['description']
+
+    humidity = data["main"]["humidity"]
+
+    feel_like = data['main']["feels_like"]
+
+    description = data["weather"][0]["description"]
+
     current = data['main']['temp']
+
     wind_speed = data['wind']['speed']
 
-    # The complete concatenated message
     c = f"{ct}: It is {round(current, 1)}°F outside in {place}. It feels like {round(feel_like, 1)}°F. Humidity is at {humidity}%. The wind is blowing at {wind_speed}mph. The weather description: {description.upper()} "
-    # data1.write(c)
-    # data1.write("\n")
-    keyboard.type(c)  # Types the message
-    keyboard.press(Key.enter)  # sends the message/types it on a newline
+    data1.write(f"{c}\n")
+    data1.write("\n")
 
     if i > 4:  # Allows the program to end without delay. really its optional
         pass
     else:
-        time.sleep(10)  # Delay. You can change it to any amount of seconds you want
+        time.sleep(30)  # Delay. You can change it to any amount of seconds you want
+data1.close()
