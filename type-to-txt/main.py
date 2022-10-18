@@ -6,6 +6,8 @@ import pandas as pd
 import numpy as np
 import os
 
+import input
+
 current_directory = os.getcwd()
 
 # Changes directory to where the dataset is located
@@ -17,7 +19,7 @@ df.drop(columns="Unnamed: 0", inplace=True)
 
 # Brings it back to the original directory
 os.chdir("type-to-txt")
-api_key = ""  # Go to openweathermap.org, sign up and get an API key.
+api_key = input.api_key  # Go to openweathermap.org, sign up and get an API key.
 data1 = open("Data.txt", "r+")
 i = 1
 

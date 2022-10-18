@@ -5,7 +5,7 @@ import time
 from datetime import datetime
 import input
 
-api_key = ""  # Go to openweathermap.org, sign up and get an API key.
+api_key = input.api_key # Go to openweathermap.org, sign up and get an API key.
 
 # Enter your city coordinates here.
 lat = input.lat
